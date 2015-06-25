@@ -46,17 +46,17 @@ def traversal(root, sequence, coding):
 
     if root.node_type == NodeType.LEAF:
         if len(sequence) == 0:
-            sequence.append(0)
+            sequence.append('0')
         coding[root.char] = sequence
 
     else:
         if root.left != None:
             s = sequence[:]
-            s.append(0)
+            s.append('0')
             traversal(root.left, s, coding)
         if root.right != None:
             s = sequence[:]
-            s.append(1)
+            s.append('1')
             traversal(root.right, s, coding)
 
 def huffman_encode(src, coding):
@@ -112,11 +112,11 @@ def huffman_decode(src, coding):
     for k in coding:
         temp = root
         for item in coding[k]:
-            if item == 0:
+            if item == '0':
                 if temp.left == None:
                     temp.left = Node(NodeType.INTERNAL)
                 temp = temp.left
-            if item == 1:
+            if item == '1':
                 if temp.right == None:
                     temp.right = Node(NodeType.INTERNAL)
                 temp = temp.right
@@ -127,11 +127,11 @@ def huffman_decode(src, coding):
     result = []
     temp = root
     for c in src:
-        if c == 0:
+        if c == '0':
             if temp.left == None:
                 raise Exception("Unexpected token")
             temp = temp.left
-        if c == 1:
+        if c == '1':
             if temp.left == None:
                 raise Exception("Unexpected token")
             temp = temp.right
@@ -141,14 +141,15 @@ def huffman_decode(src, coding):
 
     return result
 
-# s = raw_input()
-# coding = {}
-# result = huffman_encode(s, coding)
-# print "Encoding result: "
-# print result
-# print "Encoding table: "
-# print coding 
-
-# result = huffman_decode(result, coding)
-# print "Decoding result" 
-# print ''.join(result)
+if __name__ == "__main__":
+    s = raw_input()
+    coding = {}
+    result = huffman_encode(s, coding)
+    print "Encoding result: "
+    print ''.join(result)
+    print "Encoding table: "
+    print coding 
+    
+    result = huffman_decode(result, coding)
+    print "Decoding result" 
+    print ''.join(result)
